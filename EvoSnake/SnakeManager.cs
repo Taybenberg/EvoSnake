@@ -106,8 +106,13 @@ namespace EvoSnake
 
                 for (int j = 1; j < Snakes[i].Length; j++)
                 {
-                    SnakesTmp[j] = new Snake(GetSnake(Snakes[i], fitnessSum), GetSnake(Snakes[i], fitnessSum));
-                    SnakesTmp[j].mutate();
+                    if (Settings.R.Next(0, 10) == 0)
+                        SnakesTmp[j] = new Snake();
+                    else
+                    {
+                        SnakesTmp[j] = new Snake(GetSnake(Snakes[i], fitnessSum), GetSnake(Snakes[i], fitnessSum));
+                        SnakesTmp[j].mutate();
+                    }
                 }
 
                 Snakes[i] = new Snake[Settings.population];
