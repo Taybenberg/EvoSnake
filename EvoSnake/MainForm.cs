@@ -70,6 +70,8 @@ namespace EvoSnake
 
             if (play)
                 timer.Start();
+
+            Save();
         }
 
         void DrawSnake()
@@ -93,7 +95,6 @@ namespace EvoSnake
             {
                 PlayButton.Text = "Start";
                 timer.Stop();
-                Save();
             }
         }
 
