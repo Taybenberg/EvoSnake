@@ -18,7 +18,7 @@ namespace EvoSnake
 
         public ulong Fitness
         {
-            get { return fitness / (uint)(Settings.population * Settings.types); }
+            get { return fitness / (ulong)(Settings.population * Settings.types); }
         }
 
         public SnakeManager()
@@ -43,6 +43,8 @@ namespace EvoSnake
 
         public void Update()
         {
+            Generation++;
+
             do
             {
                 isAnyAlive = false;
@@ -55,8 +57,6 @@ namespace EvoSnake
                             Snakes[i][j].Step();
                         }
             } while (isAnyAlive);
-
-            Generation++;
         }
 
         public Snake SelectBest()

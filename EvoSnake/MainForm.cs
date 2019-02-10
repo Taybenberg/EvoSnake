@@ -29,21 +29,9 @@ namespace EvoSnake
         {
             InitializeComponent();
 
-            g = DrawingPanel.CreateGraphics();
+            Load();
 
-            if (File.Exists("Snakes.txt"))
-            {
-                using (var sr = new StreamReader(File.Open("Snakes.txt", FileMode.Open), Encoding.UTF8))
-                {
-                    var str = sr.ReadToEnd();
-                    sr.Close();
-                    snakeManager = JsonConvert.DeserializeObject<SnakeManager>(str);
-                }
-            }
-            else
-            {
-                snakeManager = new SnakeManager();
-            }
+            g = DrawingPanel.CreateGraphics();
 
             timer.Interval = 1000;
 
@@ -105,6 +93,7 @@ namespace EvoSnake
             {
                 PlayButton.Text = "Start";
                 timer.Stop();
+                Save();
             }
         }
 
@@ -114,6 +103,28 @@ namespace EvoSnake
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Save();
+        }
+
+        void Load()
+        {
+            if (File.Exists("Snakes.txt"))
+            {
+                using (var sr = new StreamReader(File.Open("Snakes.txt", FileMode.Open), Encoding.UTF8))
+                {
+                    var str = sr.ReadToEnd();
+                    sr.Close();
+                    snakeManager = JsonConvert.DeserializeObject<SnakeManager>(str);
+                }
+            }
+            else
+            {
+                snakeManager = new SnakeManager();
+            }
+        }
+
+        void Save()
         {
             using (var sw = new StreamWriter(File.Open("Snakes.txt", FileMode.Create), Encoding.UTF8))
             {
