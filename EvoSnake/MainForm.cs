@@ -55,7 +55,7 @@ namespace EvoSnake
         {
             timer.Stop();
 
-            MessageLabel.Text = "Initializing new generation...";
+            MessageLabel.Text = "Ініціалізація...";
 
             snakeManager.Update();
 
@@ -64,7 +64,7 @@ namespace EvoSnake
             GenLabel.Text = snakeManager.Generation.ToString();
             FitLabel.Text = snakeManager.Fitness.ToString();
 
-            MessageLabel.Text = "Processing";
+            MessageLabel.Text = string.Empty;
 
             if (play)
                 timer.Start();
@@ -84,12 +84,12 @@ namespace EvoSnake
         {
             if (play = !play)
             {
-                PlayButton.Text = "Stop";
+                PlayButton.Text = "Призупинити";
                 timer.Start();
             }
             else
             {
-                PlayButton.Text = "Start";
+                PlayButton.Text = "Почати";
                 timer.Stop();
             }
         }

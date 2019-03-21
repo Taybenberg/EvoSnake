@@ -34,6 +34,9 @@ namespace EvoSnake
         {
             Brain = new NeuralNet();
 
+            Tail.Add(new Point(Head.X - 1, Head.Y));
+            Tail.Add(new Point(Head.X - 1, Head.Y));
+
             NewFood();
         }
 
@@ -41,12 +44,18 @@ namespace EvoSnake
         {
             Brain = new NeuralNet(parent.Brain);
 
+            Tail.Add(new Point(Head.X - 1, Head.Y));
+            Tail.Add(new Point(Head.X - 1, Head.Y));
+
             NewFood();
         }
 
         public Snake(Snake parent1, Snake parent2)
         {
             Brain = new NeuralNet(parent1.Brain, parent2.Brain);
+
+            Tail.Add(new Point(Head.X - 1, Head.Y));
+            Tail.Add(new Point(Head.X - 1, Head.Y));
 
             NewFood();
         }

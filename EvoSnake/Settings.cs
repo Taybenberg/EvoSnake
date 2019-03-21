@@ -10,13 +10,13 @@ namespace EvoSnake
 
         public static int fieldWidth = 30, fieldHeight = 30;
 
-        public static int population = 1000;
+        public static int population = 400;
 
         public static int lifeDuration = 110, growBonus = 80;
         
         public static double bias = 1.0;
 
-        public static double mutationRate = 0.01;
+        public static double mutationRate = 0.25;
 
         public static int[] hiddenLayersSize = new int[]
         {
