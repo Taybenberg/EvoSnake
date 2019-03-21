@@ -6,16 +6,14 @@ namespace EvoSnake
     {
         private NeuralNet brain;
 
-        private Point direction;
-
-        public bool Alive { get; private set; }
+        public bool Alive { get; private set; } = true;
 
         public Point Food { get; private set; }
-        public Point Head { get; private set; }
-        public List<Point> Tail { get; private set; }
+        public Point Head { get; private set; } = new Point(Settings.startPoint);
+        public List<Point> Tail { get; private set; } = new List<Point>();
 
-        public int Age { get; private set; }
-        public int TimeLeft { get; private set; }
+        public int Age { get; private set; } = 0;
+        public int TimeLeft { get; private set; } = Settings.lifeDuration;
 
         public int Length
         {
@@ -36,17 +34,6 @@ namespace EvoSnake
         {
             brain = new NeuralNet();
 
-            Alive = true;
-
-            Age = 0;
-            TimeLeft = Settings.lifeDuration;
-
-            Head = new Point(Settings.startPoint);           
-
-            Tail = new List<Point>();
-
-            direction = new Point(0, 0);
-
             NewFood();
         }
 
@@ -54,34 +41,12 @@ namespace EvoSnake
         {
             brain = new NeuralNet(parent.brain);
 
-            Alive = true;
-
-            Age = 0;
-            TimeLeft = Settings.lifeDuration;
-
-            Head = new Point(Settings.startPoint);
-
-            Tail = new List<Point>();
-
-            direction = new Point(0, 0);
-
             NewFood();
         }
 
         public Snake(Snake parent1, Snake parent2)
         {
             brain = new NeuralNet(parent1.brain, parent2.brain);
-
-            Alive = true;
-
-            Age = 0;
-            TimeLeft = Settings.lifeDuration;
-
-            Head = new Point(Settings.startPoint);
-
-            Tail = new List<Point>();
-
-            direction = new Point(0, 0);
 
             NewFood();
         }
@@ -104,14 +69,13 @@ namespace EvoSnake
             double[] directions = brain.output(Look());
 
             int max = 0;
-
             for (int i = 1; i < Settings.outDirections.Length; i++)
                 if (directions[i] > directions[max])
                     max = i;
 
-            this.direction = new Point(Settings.outDirections[max]);
+            var direction = new Point(Settings.outDirections[max]);
 
-            Move();
+            Move(direction);
         }
 
         bool IsOnHead(Point Point)
@@ -139,10 +103,8 @@ namespace EvoSnake
                 || Point.Y < 0 || Point.Y >= Settings.fieldHeight);
         }
 
-        void Move()
+        void Move(Point direction)
         {
-            CheckSafety();
-
             if (Length > 0)
             {
                 for (int i = Length - 1; i > 0; --i)
@@ -153,25 +115,8 @@ namespace EvoSnake
 
             Head += direction;
 
-            TryEat();
-        }
+            Alive = !(IsOnTail(Head) || IsOutside(Head) || TimeLeft <= 0);
 
-        void CheckSafety()
-        {
-            if (IsOnTail(Head) || IsOutside(Head) || TimeLeft <= 0)
-                Alive = false;
-        }
-
-        void NewFood()
-        {
-            do
-            {
-                Food = new Point(Settings.R.Next(0, Settings.fieldWidth), Settings.R.Next(0, Settings.fieldHeight));
-            } while (IsOnHead(Food) || IsOnTail(Food));
-        }
-
-        void TryEat()
-        {
             if (IsOnFood(Head))
             {
                 Tail.Add(new Point(Head));
@@ -180,6 +125,14 @@ namespace EvoSnake
 
                 TimeLeft += Settings.growBonus;
             }
+        }
+
+        void NewFood()
+        {
+            do
+            {
+                Food = new Point(Settings.R.Next(0, Settings.fieldWidth), Settings.R.Next(0, Settings.fieldHeight));
+            } while (IsOnHead(Food) || IsOnTail(Food));
         }
 
         double[] Look()

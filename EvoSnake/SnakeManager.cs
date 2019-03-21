@@ -7,36 +7,24 @@ namespace EvoSnake
     {
         private bool isAnyAlive;
 
-        public Snake[][] Snakes { get; private set; }
-        public Snake[] Best { get; private set; }
+        public Snake Best { get; private set; } = null;
 
-        public uint Generation { get; private set; }
+        public Snake[] Snakes { get; private set; }
 
-        public ulong[] Record { get; private set; }
+        public int Generation { get; private set; } = 0;
 
-        public ulong fitness;
+        public ulong Record { get; private set; } = 0ul;
 
-        public ulong Fitness
-        {
-            get { return fitness / (ulong)(Settings.population * Settings.types); }
-        }
+        private ulong fitness;
+
+        public ulong Fitness { get { return fitness / (ulong)Settings.population; } }
 
         public SnakeManager()
         {
-            Record = new ulong[Settings.types];
-            Best = new Snake[Settings.types];
-            Snakes = new Snake[Settings.types][];
+            Snakes = new Snake[Settings.population];
 
-            for (int i = 0; i < Settings.types; i++)
-            {
-                Best[i] = null;
-                Record[i] = 0;
-
-                Snakes[i] = new Snake[Settings.population];
-
-                for (int j = 0; j < Settings.population; j++)
-                    Snakes[i][j] = new Snake();
-            }
+            for (int i = 0; i < Settings.population; i++)
+                Snakes[i] = new Snake();
 
             isAnyAlive = true;
         }
@@ -49,76 +37,58 @@ namespace EvoSnake
             {
                 isAnyAlive = false;
 
-                for (int i = 0; i < Settings.types; ++i)
-                    for (int j = 0; j < Settings.population; ++j)
-                        if (Snakes[i][j].Alive)
-                        {
-                            isAnyAlive = true;
-                            Snakes[i][j].Step();
-                        }
+                for (int i = 0; i < Settings.population; ++i)
+                    if (Snakes[i].Alive)
+                    {
+                        isAnyAlive = true;
+                        Snakes[i].Step();
+                    }
             } while (isAnyAlive);
+
+            SelectBest();
+
+            NaturalSelection();
         }
 
-        public Snake SelectBest()
+        void SelectBest()
         {
-            int theBest;
+            int theBest = 0;
 
-            for (int i = 0; i < Settings.types; i++)
-            {
-                theBest = 0;
-
-                for (int j = 1; j < Settings.population; j++)
-                    if (Snakes[i][theBest].Fitness < Snakes[i][j].Fitness)
-                        theBest = j;
-
-                Best[i] = new Snake(Snakes[i][theBest]);
-
-                if (Record[i] < Snakes[i][theBest].Fitness)
-                    Record[i] = Snakes[i][theBest].Fitness;
-            }
-
-            theBest = 0;
-
-            for (int i = 1; i < Settings.types; i++)
-                if (Best[i].Fitness > Best[theBest].Fitness)
+            for (int i = 1; i < Settings.population; i++)
+                if (Snakes[theBest].Fitness < Snakes[i].Fitness)
                     theBest = i;
 
-            return Best[theBest];
+            if (Record < Snakes[theBest].Fitness)
+                Record = Snakes[theBest].Fitness;
+
+            Best = new Snake(Snakes[theBest]);
         }
 
-        public void NaturalSelection()
+        void NaturalSelection()
         {
             fitness = 0;
 
             Snake[] SnakesTmp;
 
-            for (int i = 0; i < Snakes.Length; i++)
+            for (int i = 0; i < Settings.population; i++)
+                fitness += Snakes[i].Fitness;
+
+
+            SnakesTmp = new Snake[Settings.population];
+            SnakesTmp[0] = new Snake(Best);
+
+            for (int j = 1; j < Settings.population; j++)
             {
-                ulong fitnessSum = 0;
-
-                for (int j = 0; j < Snakes[i].Length; j++)
-                    fitnessSum += Snakes[i][j].Fitness;
-
-                fitness += fitnessSum;
-
-                SnakesTmp = new Snake[Settings.population];
-                SnakesTmp[0] = new Snake(Best[i]);
-
-                for (int j = 1; j < Snakes[i].Length; j++)
+                if (Settings.R.Next(0, 10) == 0)
+                    SnakesTmp[j] = new Snake();
+                else
                 {
-                    if (Settings.R.Next(0, 10) == 0)
-                        SnakesTmp[j] = new Snake();
-                    else
-                    {
-                        SnakesTmp[j] = new Snake(GetSnake(Snakes[i], fitnessSum), GetSnake(Snakes[i], fitnessSum));
-                        SnakesTmp[j].mutate();
-                    }
+                    SnakesTmp[j] = new Snake(GetSnake(Snakes, fitness), GetSnake(Snakes, fitness));
+                    SnakesTmp[j].mutate();
                 }
-
-                Snakes[i] = new Snake[Settings.population];
-                for (int j = 0; j < Settings.population; j++)
-                    Snakes[i][j] = new Snake(SnakesTmp[j]);
             }
+
+            Array.Copy(SnakesTmp, Snakes, Settings.population);
         }
 
         Snake GetSnake(Snake[] Snakes, ulong fitnessSum)

@@ -35,7 +35,7 @@ namespace EvoSnake
 
             timer.Interval = 1000;
 
-            InitNewGenerationAsync();
+            InitNewGeneration();
 
             timer.Tick += (s, e) =>
             {
@@ -46,12 +46,12 @@ namespace EvoSnake
                 }
                 else
                 {                  
-                    InitNewGenerationAsync();
+                    InitNewGeneration();
                 }
             };
         }
 
-        async void InitNewGenerationAsync()
+        void InitNewGeneration()
         {
             timer.Stop();
 
@@ -59,14 +59,12 @@ namespace EvoSnake
 
             snakeManager.Update();
 
-            best = new Snake(snakeManager.SelectBest());
-
-            snakeManager.NaturalSelection();
+            best = snakeManager.Best;
 
             GenLabel.Text = snakeManager.Generation.ToString();
             FitLabel.Text = snakeManager.Fitness.ToString();
 
-            MessageLabel.Text = string.Empty;
+            MessageLabel.Text = "Processing";
 
             if (play)
                 timer.Start();
@@ -84,7 +82,7 @@ namespace EvoSnake
             g.FillRectangle(head, w * best.Head.X, h * best.Head.Y, w, h);
         }
 
-        private void PlayButton_Click(object sender, System.EventArgs e)
+        void PlayButton_Click(object sender, System.EventArgs e)
         {
             if (play = !play)
             {
@@ -98,12 +96,12 @@ namespace EvoSnake
             }
         }
 
-        private void SpeedControl_ValueChanged(object sender, System.EventArgs e)
+        void SpeedControl_ValueChanged(object sender, System.EventArgs e)
         {
             timer.Interval = SpeedControl.Value * 10;
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Save();
         }

@@ -6,13 +6,13 @@ namespace EvoSnake
     {
         public static Random R = new Random();
 
-        public static Point startPoint = new Point(20, 20);
+        public static Point startPoint = new Point(15, 15);
 
-        public static int fieldWidth = 40, fieldHeight = 40;
+        public static int fieldWidth = 30, fieldHeight = 30;
 
-        public static int types = 5, population = 500;
+        public static int population = 1000;
 
-        public static int lifeDuration = 100, growBonus = 75;
+        public static int lifeDuration = 110, growBonus = 80;
         
         public static double bias = 1.0;
 
@@ -20,7 +20,6 @@ namespace EvoSnake
 
         public static int[] hiddenLayersSize = new int[]
         {
-            36,
             24
         };
 
@@ -74,10 +73,10 @@ namespace EvoSnake
 
         public static ulong fitnessFunction(ulong lifetime, ulong lenght)
         {
-            if (lenght < 10)
-                return (lifetime * lifetime * lenght * lenght) / 100;
+            if (lenght < 10ul)
+                return (lifetime * lifetime * lenght * lenght) / 100ul;
 
-            return (lifetime * lifetime * 128 * (lenght - 9)) / 100;
+            return (lifetime * lifetime * 128ul * (lenght - 9ul)) / 100ul;
         }
     }
 }
