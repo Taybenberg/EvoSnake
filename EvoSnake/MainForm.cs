@@ -55,7 +55,7 @@ namespace EvoSnake
         {
             timer.Stop();
 
-            MessageLabel.Text = "Ініціалізація...";
+            MessageLabel.Text = "Initialization...";
 
             snakeManager.Update();
 
@@ -84,12 +84,12 @@ namespace EvoSnake
         {
             if (play = !play)
             {
-                PlayButton.Text = "Призупинити";
+                PlayButton.Text = "Stop";
                 timer.Start();
             }
             else
             {
-                PlayButton.Text = "Почати";
+                PlayButton.Text = "Start";
                 timer.Stop();
             }
         }

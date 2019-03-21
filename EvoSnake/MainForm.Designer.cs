@@ -52,9 +52,9 @@
             this.GenerationLabel.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.GenerationLabel.Location = new System.Drawing.Point(726, 67);
             this.GenerationLabel.Name = "GenerationLabel";
-            this.GenerationLabel.Size = new System.Drawing.Size(130, 30);
+            this.GenerationLabel.Size = new System.Drawing.Size(128, 30);
             this.GenerationLabel.TabIndex = 2;
-            this.GenerationLabel.Text = "Покоління:";
+            this.GenerationLabel.Text = "Generation:";
             // 
             // GenLabel
             // 
@@ -72,9 +72,9 @@
             this.MessageLabel.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.MessageLabel.Location = new System.Drawing.Point(726, 18);
             this.MessageLabel.Name = "MessageLabel";
-            this.MessageLabel.Size = new System.Drawing.Size(164, 30);
+            this.MessageLabel.Size = new System.Drawing.Size(97, 30);
             this.MessageLabel.TabIndex = 4;
-            this.MessageLabel.Text = "Повідомлення";
+            this.MessageLabel.Text = "Message";
             // 
             // FitnessLabel
             // 
@@ -82,15 +82,15 @@
             this.FitnessLabel.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FitnessLabel.Location = new System.Drawing.Point(726, 119);
             this.FitnessLabel.Name = "FitnessLabel";
-            this.FitnessLabel.Size = new System.Drawing.Size(191, 30);
+            this.FitnessLabel.Size = new System.Drawing.Size(86, 30);
             this.FitnessLabel.TabIndex = 5;
-            this.FitnessLabel.Text = "Пристосованість:";
+            this.FitnessLabel.Text = "Fitness:";
             // 
             // FitLabel
             // 
             this.FitLabel.AutoSize = true;
             this.FitLabel.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.FitLabel.Location = new System.Drawing.Point(726, 149);
+            this.FitLabel.Location = new System.Drawing.Point(818, 119);
             this.FitLabel.Name = "FitLabel";
             this.FitLabel.Size = new System.Drawing.Size(25, 30);
             this.FitLabel.TabIndex = 6;
@@ -104,7 +104,7 @@
             this.PlayButton.Name = "PlayButton";
             this.PlayButton.Size = new System.Drawing.Size(257, 60);
             this.PlayButton.TabIndex = 7;
-            this.PlayButton.Text = "Почати";
+            this.PlayButton.Text = "Start";
             this.PlayButton.UseVisualStyleBackColor = true;
             this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
             // 
