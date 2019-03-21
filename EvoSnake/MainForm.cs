@@ -68,8 +68,6 @@ namespace EvoSnake
 
             if (play)
                 timer.Start();
-
-            Save();
         }
 
         void DrawSnake()

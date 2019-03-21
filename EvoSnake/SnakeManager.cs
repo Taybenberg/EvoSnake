@@ -5,17 +5,17 @@ namespace EvoSnake
 {
     public class SnakeManager
     {
-        private bool isAnyAlive;
+        public bool isAnyAlive { get; set; }
 
-        public Snake Best { get; private set; } = null;
+        public Snake Best { get; set; } = null;
 
-        public Snake[] Snakes { get; private set; }
+        public Snake[] Snakes { get; set; }
 
-        public int Generation { get; private set; } = 0;
+        public int Generation { get; set; } = 0;
 
-        public ulong Record { get; private set; } = 0ul;
+        public ulong Record { get; set; } = 0ul;
 
-        private ulong fitness;
+        public ulong fitness;
 
         public ulong Fitness { get { return fitness / (ulong)Settings.population; } }
 

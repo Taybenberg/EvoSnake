@@ -4,16 +4,16 @@ namespace EvoSnake
 {
     public class Snake
     {
-        private NeuralNet brain;
+        public NeuralNet Brain { get; set; }
 
-        public bool Alive { get; private set; } = true;
+        public bool Alive { get; set; } = true;
 
-        public Point Food { get; private set; }
-        public Point Head { get; private set; } = new Point(Settings.startPoint);
-        public List<Point> Tail { get; private set; } = new List<Point>();
+        public Point Food { get; set; }
+        public Point Head { get; set; } = new Point(Settings.startPoint);
+        public List<Point> Tail { get; set; } = new List<Point>();
 
-        public int Age { get; private set; } = 0;
-        public int TimeLeft { get; private set; } = Settings.lifeDuration;
+        public int Age { get; set; } = 0;
+        public int TimeLeft { get; set; } = Settings.lifeDuration;
 
         public int Length
         {
@@ -32,21 +32,21 @@ namespace EvoSnake
 
         public Snake()
         {
-            brain = new NeuralNet();
+            Brain = new NeuralNet();
 
             NewFood();
         }
 
         public Snake(Snake parent)
         {
-            brain = new NeuralNet(parent.brain);
+            Brain = new NeuralNet(parent.Brain);
 
             NewFood();
         }
 
         public Snake(Snake parent1, Snake parent2)
         {
-            brain = new NeuralNet(parent1.brain, parent2.brain);
+            Brain = new NeuralNet(parent1.Brain, parent2.Brain);
 
             NewFood();
         }
@@ -58,7 +58,7 @@ namespace EvoSnake
 
         public void mutate()
         {
-            brain.mutate();
+            Brain.mutate();
         }
 
         public void Step()
@@ -66,7 +66,7 @@ namespace EvoSnake
             Age++;
             TimeLeft--;
 
-            double[] directions = brain.output(Look());
+            double[] directions = Brain.output(Look());
 
             int max = 0;
             for (int i = 1; i < Settings.outDirections.Length; i++)
